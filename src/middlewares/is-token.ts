@@ -12,7 +12,7 @@ export const IsToken = async (
     const token = authHeader.split(" ")[1];
     const jwtSecret = process.env.SECRET || "temporarySecret";
 
-    jwt.verify(token, jwtSecret, { issuer: "server" }, (error, decoded) => {
+    jwt.verify(token, jwtSecret, (error, decoded) => {
       if (error) {
         return res.status(401).json({
           success: false,

@@ -17,17 +17,19 @@ model User {
   branch    Branch?  @relation(fields: [branchId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Order     Order[]
 }
 
 model Branch {
   id        String    @id @default(uuid())
   name      String
   location  String
-  users     User[] 
-  sales     Sale[] 
-  expenses  Expense[] 
+  users     User[]
+  sales     Sale[]
+  expenses  Expense[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Order     Order[]
 }
 
 model Sale {
@@ -49,4 +51,20 @@ model Expense {
   branch      Branch   @relation(fields: [branchId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id                  String   @id @default(uuid())
+  tableNumber         Int
+  customerName        String
+  waiterId            String
+  waiter              User     @relation(fields: [waiterId], references: [id])
+  branchId            String
+  branch              Branch   @relation(fields: [branchId], references: [id])
+  status              String
+  placedAt            DateTime
+  specialInstructions String?
+  items               Json
+
+  @@map("orders")
 }
